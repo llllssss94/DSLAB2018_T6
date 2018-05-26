@@ -11,8 +11,8 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-    <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
+    <project.build.sourceEncoding>MS949</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>MS949</project.reporting.outputEncoding>
   </properties>
 
   <dependencies>
