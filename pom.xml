@@ -11,8 +11,8 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-    <project.build.sourceEncoding>ANSI</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>ANSI</project.reporting.outputEncoding>
+    <project.build.sourceEncoding>utf-16</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>utf-16</project.reporting.outputEncoding>
   </properties>
 
   <dependencies>
