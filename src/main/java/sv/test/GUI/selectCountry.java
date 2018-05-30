@@ -4,16 +4,19 @@ import ATM.MainSystem;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.*;
-public class selectCountry extends JFrame implements ActionListener{
+
+public class selectCountry extends JFrame implements ActionListener, KeyListener {
 	MainSystem main;
 	JButton[] country;
 	GridBagLayout gbl;
 	GridBagConstraints gbc;
-	
+
 	public selectCountry(MainSystem main) {
-		super("selectCountry");			
+		super("selectCountry");
 		gbl = new GridBagLayout();
 		gbc = new GridBagConstraints();
 		this.setLayout(gbl);
@@ -26,10 +29,13 @@ public class selectCountry extends JFrame implements ActionListener{
 		country[1] = new JButton("JPY");
 		country[2] = new JButton("EUR");
 		country[3] = new JButton("CNY");
-		for(int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++) {
 			country[i].addActionListener(this);
+			country[i].addKeyListener(this);
 		}
-		add(new JLabel("Select Country"), 0, 0, 3, 1);
+		JLabel cc = new JLabel("Select Country");
+		cc.addKeyListener(this);
+		add(cc, 0, 0, 3, 1);
 		add(country[0], 0, 1, 1, 1);
 		add(country[1], 2, 1, 1, 1);
 		add(country[2], 0, 2, 1, 1);
@@ -38,24 +44,24 @@ public class selectCountry extends JFrame implements ActionListener{
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource() == country[0]) {
+		if (e.getSource() == country[0]) {
 			new inputUSDFrame(main, country[0].getText());
 			this.dispose();
-		}else if(e.getSource() == country[1]) {
+		} else if (e.getSource() == country[1]) {
 			new inputUSDFrame(main, country[1].getText());
 			this.dispose();
-		}else if(e.getSource() == country[2]) {
+		} else if (e.getSource() == country[2]) {
 			new inputUSDFrame(main, country[2].getText());
-		}else if(e.getSource() == country[3]) {
+		} else if (e.getSource() == country[3]) {
 			new inputUSDFrame(main, country[3].getText());
 			this.dispose();
 		}
 	}
-	
+
 	private void add(Component c, int x, int y, int w, int h) {
 		gbc.gridx = x;
 		gbc.gridy = y;
@@ -63,5 +69,34 @@ public class selectCountry extends JFrame implements ActionListener{
 		gbc.gridheight = h;
 		gbl.setConstraints(c, gbc);
 		add(c);
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getKeyChar() == '1') {
+			new inputUSDFrame(main, country[0].getText());
+			this.dispose();
+		} else if (e.getKeyChar() == '2') {
+			new inputUSDFrame(main, country[1].getText());
+			this.dispose();
+		} else if (e.getKeyChar() == '3') {
+			new inputUSDFrame(main, country[2].getText());
+		} else if (e.getKeyChar() == '4') {
+			new inputUSDFrame(main, country[3].getText());
+			this.dispose();
+		}
 	}
 }

@@ -3,13 +3,15 @@ package GUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
 import ATM.Account;
 import ATM.MainSystem;
 
-public class inputPasswordFrame extends JFrame implements ActionListener {
+public class inputPasswordFrame extends JFrame implements ActionListener, KeyListener {
 
 	int count, menu, wrongtime;
 	String password;
@@ -38,6 +40,7 @@ public class inputPasswordFrame extends JFrame implements ActionListener {
 		l = new JLabel[4];
 		for (int i = 0; i < 4; i++) {
 			l[i] = new JLabel("__");
+			l[i].addKeyListener(this);
 			add(l[i], i, 1, 1, 1);
 		}
 		state = new JLabel("Input Password");
@@ -46,11 +49,17 @@ public class inputPasswordFrame extends JFrame implements ActionListener {
 		for (int i = 0; i < 10; i++) {
 			b[i] = new JButton(String.valueOf(i));
 			b[i].addActionListener(this);
+			b[i].addKeyListener(this);
 		}
 		bb = new JButton("<-");
 		bb.addActionListener(this);
 		reset = new JButton("Reset");
 		reset.addActionListener(this);
+
+		state.addKeyListener(this);
+		bb.addKeyListener(this);
+		reset.addKeyListener(this);
+
 		add(b[1], 0, 3, 1, 1);
 		add(b[2], 1, 3, 1, 1);
 		add(b[3], 2, 3, 1, 1);
@@ -67,7 +76,7 @@ public class inputPasswordFrame extends JFrame implements ActionListener {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
+
 	public inputPasswordFrame(int menu, MainSystem main, Account account) {
 		super("password");
 		this.menu = menu;
@@ -85,6 +94,7 @@ public class inputPasswordFrame extends JFrame implements ActionListener {
 		l = new JLabel[4];
 		for (int i = 0; i < 4; i++) {
 			l[i] = new JLabel("__");
+			l[i].addKeyListener(this);
 			add(l[i], i, 1, 1, 1);
 		}
 		state = new JLabel("Input Password");
@@ -93,11 +103,15 @@ public class inputPasswordFrame extends JFrame implements ActionListener {
 		for (int i = 0; i < 10; i++) {
 			b[i] = new JButton(String.valueOf(i));
 			b[i].addActionListener(this);
+			b[i].addKeyListener(this);
 		}
 		bb = new JButton("<-");
 		bb.addActionListener(this);
 		reset = new JButton("Reset");
 		reset.addActionListener(this);
+		state.addKeyListener(this);
+		bb.addKeyListener(this);
+		reset.addKeyListener(this);
 		add(b[1], 0, 3, 1, 1);
 		add(b[2], 1, 3, 1, 1);
 		add(b[3], 2, 3, 1, 1);
@@ -222,6 +236,7 @@ public class inputPasswordFrame extends JFrame implements ActionListener {
 			break;
 		case 2: // loan
 			new inputMoneyFrame(4, main);
+			this.dispose();
 			break;
 		case 3: // checkbalance
 			new printLogFrame(main);
@@ -233,11 +248,12 @@ public class inputPasswordFrame extends JFrame implements ActionListener {
 			break;
 		case 5: // payub
 			int error;
-			if ((error = main.transfer(account.getBalance(), account)) == 0) {
+			if ((error = main.payUtilityBill(account)) == 0) {
 				new ReceiptFrame(main);
 				this.dispose();
 			} else {
 				new errorPrintFrame(error);
+				this.dispose();
 			}
 			break;
 
@@ -267,7 +283,7 @@ public class inputPasswordFrame extends JFrame implements ActionListener {
 			}
 		}
 	}
-	
+
 	private void add(Component c, int x, int y, int w, int h) {
 		gbc.gridx = x;
 		gbc.gridy = y;
@@ -275,5 +291,128 @@ public class inputPasswordFrame extends JFrame implements ActionListener {
 		gbc.gridheight = h;
 		gbl.setConstraints(c, gbc);
 		add(c);
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		char key = e.getKeyChar();
+		switch (key) {
+		case '0':
+			if (count == 0) {
+				password = "0";
+			} else {
+				password = password + "0";
+			}
+			l[count++].setText("*");
+			checkPassword();
+			break;
+		case '1':
+			if (count == 0) {
+				password = "1";
+			} else {
+				password = password + "1";
+			}
+			l[count++].setText("*");
+			checkPassword();
+			break;
+		case '2':
+			if (count == 0) {
+				password = "2";
+			} else {
+				password = password + "2";
+			}
+			l[count++].setText("*");
+			checkPassword();
+			break;
+		case '3':
+			if (count == 0) {
+				password = "3";
+			} else {
+				password = password + "3";
+			}
+			l[count++].setText("*");
+			checkPassword();
+			break;
+		case '4':
+			if (count == 0) {
+				password = "4";
+			} else {
+				password = password + "4";
+			}
+			l[count++].setText("*");
+			checkPassword();
+			break;
+		case '5':
+			if (count == 0) {
+				password = "5";
+			} else {
+				password = password + "5";
+			}
+			l[count++].setText("*");
+			checkPassword();
+			break;
+		case '6':
+			if (count == 0) {
+				password = "6";
+			} else {
+				password = password + "6";
+			}
+			l[count++].setText("*");
+			checkPassword();
+			break;
+		case '7':
+			if (count == 0) {
+				password = "7";
+			} else {
+				password = password + "7";
+			}
+			l[count++].setText("*");
+			checkPassword();
+			break;
+		case '8':
+			if (count == 0) {
+				password = "8";
+			} else {
+				password = password + "8";
+			}
+			l[count++].setText("*");
+			checkPassword();
+			break;
+		case '9':
+			if (count == 0) {
+				password = "9";
+			} else {
+				password = password + "9";
+			}
+			l[count++].setText("*");
+			checkPassword();
+			break;
+		case '\b':
+			if (count > 0) {
+				password = password.substring(0, password.length() - 1);
+				l[--count].setText("__");
+			}
+			break;
+		case 'r':
+			for (int i = 0; i < 4; i++) {
+				l[i].setText("__");
+			}
+			count = 0;
+			password = null;
+			break;
+		}
 	}
 }

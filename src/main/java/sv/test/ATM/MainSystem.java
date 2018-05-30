@@ -30,7 +30,7 @@ public class MainSystem {
 	public Account getAccount() {
 		return this.account;
 	}
-	
+
 	public void setAccount(Account account) {
 		this.account = account;
 	}
@@ -56,18 +56,38 @@ public class MainSystem {
 	}
 
 	public int deposit(int money) {
-		if ((this.errorType = offer[bank].readDatabase(account)) == 0) {
-			account.setBalance(account.getBalance() + money);
-			String newLog = new Date() + " " + money + " 입금 \t( 잔액 : " + account.getBalance() + " )\n";
-			newLog = newLog + account.getLog();
-			account.setLog(newLog);
-			if (offer[bank].updateDatabase(account)) {
-				return 0;
+		if (this.account.getBank().substring(2, 4).equals("카드")) {
+			if ((this.errorType = offer[bank].readDatabase(account)) == 0) {
+				if (account.getDept() < money) {
+					return 6;
+				} else {
+					account.setDept(account.getDept() - money);
+					String newLog = new Date() + " " + money + " 상환 \t( 대출금 : " + account.getDept() + " )\n";
+					newLog = newLog + account.getLog();
+					account.setLog(newLog);
+					if (offer[bank].updateDatabase(account)) {
+						return 0;
+					} else {
+						return 2;
+					}
+				}
 			} else {
 				return 2;
 			}
 		} else {
-			return 2;
+			if ((this.errorType = offer[bank].readDatabase(account)) == 0) {
+				account.setBalance(account.getBalance() + money);
+				String newLog = new Date() + " " + money + " 입금 \t( 잔액 : " + account.getBalance() + " )\n";
+				newLog = newLog + account.getLog();
+				account.setLog(newLog);
+				if (offer[bank].updateDatabase(account)) {
+					return 0;
+				} else {
+					return 2;
+				}
+			} else {
+				return 2;
+			}
 		}
 	}
 
@@ -131,7 +151,7 @@ public class MainSystem {
 						this.takeCharge(account);
 					if (offer[bank].updateDatabase(account)) {
 						return 0;
-					}else {
+					} else {
 						return 2;
 					}
 				}
@@ -143,18 +163,18 @@ public class MainSystem {
 	}
 
 	public int exchange(int money, String str) {
-		int[] exchangeRate = {1100, 1000, 1280, 200};
-		String[] country = {"USD", "JPY", "EUR", "CNY"};
+		int[] exchangeRate = { 1100, 1000, 1280, 200 };
+		String[] country = { "USD", "JPY", "EUR", "CNY" };
 		int i;
 		int won;
-		for(i = 0; i < 4; i++) {
-			if(str.equals(country[i]))
+		for (i = 0; i < 4; i++) {
+			if (str.equals(country[i]))
 				break;
 		}
 		if (this.account.getBalance() < (won = money * exchangeRate[i])) {
 			return 1;
 		} else {
-			account.setBalance(account.getBalance() - money);
+			account.setBalance(account.getBalance() - won);
 			String newLog = new Date() + " " + won + "원 을 " + money + str + "로 환전 " + "\t( 잔액 : " + account.getBalance()
 					+ " )\n";
 			newLog = newLog + account.getLog();
@@ -166,15 +186,15 @@ public class MainSystem {
 			}
 		}
 	}
-	
+
 	public int loan(int money) {
-		if(account.getLimit() < account.getBalance() + money) {
-			return 1;
-		}else {
+		if (account.getLimit() < account.getDept() + money) {
+			return 7;
+		} else {
 			offer[bank].readDatabase(account);
 			account.setDept(account.getDept() + money);
-			String newLog = new Date() + " " + money + " 대출 " + "\t( 남은 한도 : " + (account.getLimit() - account.getDept())
-					+ " )\n";
+			String newLog = new Date() + " " + money + " 대출 " + "\t( 남은 한도 : "
+					+ (account.getLimit() - account.getDept()) + " )\n";
 			newLog = newLog + account.getLog();
 			account.setLog(newLog);
 			if (offer[bank].updateDatabase(account)) {
@@ -184,7 +204,7 @@ public class MainSystem {
 			}
 		}
 	}
-	
+
 	public void takeCharge(Account account) {
 		account.setBalance(account.getBalance() - 1300);
 	}
@@ -195,5 +215,44 @@ public class MainSystem {
 
 	public String checkBalance() {
 		return this.account.getLog();
+	}
+
+	public int payUtilityBill(Account newAccount) {
+		if (offer[bank].checkValid(account)) {
+			int money = newAccount.getBalance();
+			if ((this.errorType = offer[bank].readDatabase(account)) == 0) {
+			}
+			if ((account.getBank().equals("신한은행") && account.getBalance() < money)
+					|| (!account.getBank().equals("신한은행") && account.getBalance() < money + 1300)) {
+				return 1;
+			} else if(newAccount.getBalance() == 0) {
+				return 9;
+			} else {
+				newAccount.setBalance(newAccount.getBalance() - money);
+				String tempLog = new Date() + " " + money + " 공과금납부 " + account.getBank() + " "
+						+ account.getAccountNumber() + "\t( 잔액 : " + newAccount.getBalance() + " )\n";
+				System.out.println(tempLog);
+				tempLog = tempLog + newAccount.getLog();
+				newAccount.setLog(tempLog);
+				if (!offer[6].updateDatabase(newAccount)) {
+					return 2;
+				}
+				offer[bank].readDatabase(account);
+				account.setBalance(account.getBalance() - money);
+				String newLog = new Date() + " " + money + " 공과금납부 " + newAccount.getBank() + " "
+						+ newAccount.getAccountNumber() + "\t( 잔액 : " + account.getBalance() + " )\n";
+				newLog = newLog + account.getLog();
+				account.setLog(newLog);
+				if (!account.getBank().equals("신한은행"))
+					this.takeCharge(account);
+				if (offer[bank].updateDatabase(account)) {
+					return 0;
+				} else {
+					return 2;
+				}
+			}
+		} else {
+			return 2;
+		}
 	}
 }

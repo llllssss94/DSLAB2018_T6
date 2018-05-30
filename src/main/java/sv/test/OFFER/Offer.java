@@ -80,8 +80,7 @@ public class Offer {
 			this.input = new BufferedReader(new FileReader(direc));
 			if(input.readLine().equals("true")) {
 				currentAccount.setIsLocked(true);
-				System.out.println("error 2 : [requestInformationFromServer] the account is locked");
-				return 2;
+				return 5;
 			}
 			currentAccount.setName(this.input.readLine());
 			currentAccount.setPassword(Integer.parseInt(this.input.readLine()));
