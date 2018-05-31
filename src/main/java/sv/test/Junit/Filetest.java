@@ -13,7 +13,7 @@ public class Filetest {
 	public void testCheckValid() {
 		Offer test = new Offer(0);
 		Account account = new Account();
-		account.setBank("±¹¹ÎÀºÇà");
+		account.setBank("êµ­ë¯¼ì€í–‰");
 		account.setAccountNumber("23456789");
 		assertEquals(true, test.checkValid(account));
 	}
@@ -22,11 +22,11 @@ public class Filetest {
 	public void testUpdateDatabase() {
 		Offer test = new Offer(0);
 		Account testaccount = new Account();
-		testaccount.setBank("±¹¹ÎÀºÇà");
+		testaccount.setBank("êµ­ë¯¼ì€í–‰");
 		testaccount.setAccountNumber("23456789");
 		testaccount.setBalance(222080);
 		testaccount.setIsLocked(false);
-		testaccount.setName("±Ç¼º¿Ï");
+		testaccount.setName("ê¶Œì„±ì™„");
 		testaccount.setPassword(4752);
 		testaccount.setRate(3);
 		testaccount.setLog("");
@@ -36,16 +36,16 @@ public class Filetest {
 	@Test
 	public void testReadDatabase() {
 		Account testaccount = new Account();
-		testaccount.setBank("±¹¹ÎÀºÇà");
+		testaccount.setBank("êµ­ë¯¼ì€í–‰");
 		testaccount.setAccountNumber("23456789");
 		testaccount.setBalance(222080);
 		testaccount.setIsLocked(false);
-		testaccount.setName("±Ç¼º¿Ï");
+		testaccount.setName("ê¶Œì„±ì™„");
 		testaccount.setPassword(4752);
 		testaccount.setRate(3);
 		Account account = new Account();
 		Offer test = new Offer(0);
-		account.setBank("±¹¹ÎÀºÇà");
+		account.setBank("êµ­ë¯¼ì€í–‰");
 		account.setAccountNumber("23456789");
 		test.readDatabase(account);
 		assertEquals(testaccount.getBalance(), account.getBalance());
