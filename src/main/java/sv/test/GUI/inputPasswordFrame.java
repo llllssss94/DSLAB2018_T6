@@ -225,17 +225,32 @@ public class inputPasswordFrame extends JFrame implements ActionListener, KeyLis
 	}
 
 	public void selectmenu() {
+		int error;
 		switch (menu) {
 		case 0: // withdraw
-			new inputMoneyFrame(3, main);
+			if ((error = main.withdraw(main.bank)) == 0) {
+				new ReceiptFrame(main);
+			} else {
+				new errorPrintFrame(error);
+			}
 			this.dispose();
 			break;
 		case 1: // exchange
-			new selectCountry(main);
+			if ((error = main.exchange(main.bank, main.card)) == 0) {
+				new ReceiptFrame(main);
+				this.dispose();
+			} else {
+				new errorPrintFrame(error);
+				this.dispose();
+			}
 			this.dispose();
 			break;
 		case 2: // loan
-			new inputMoneyFrame(4, main);
+			if ((error = main.loan(main.bank)) == 0) {
+				new ReceiptFrame(main);
+			} else {
+				new errorPrintFrame(error);
+			}
 			this.dispose();
 			break;
 		case 3: // checkbalance
@@ -243,11 +258,14 @@ public class inputPasswordFrame extends JFrame implements ActionListener, KeyLis
 			this.dispose();
 			break;
 		case 4: // transfer
-			new inputMoneyFrame(2, main, account);
+			if ((error = main.transfer(main.bank, this.account)) == 0) {				
+				new ReceiptFrame(main);
+			} else {
+				new errorPrintFrame(error);
+			}
 			this.dispose();
 			break;
 		case 5: // payub
-			int error;
 			if ((error = main.payUtilityBill(account)) == 0) {
 				new ReceiptFrame(main);
 				this.dispose();

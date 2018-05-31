@@ -245,11 +245,11 @@ public class insertFrame extends JFrame implements ActionListener, KeyListener {
 					this.dispose();
 					break;
 				case 1: // withdraw
-					new inputPasswordFrame(0, main);
+					new inputMoneyFrame(3, main);
 					this.dispose();
 					break;
 				case 2: // exchange
-					new inputPasswordFrame(1, main);
+					new selectCountry(main);
 					this.dispose();
 					break;
 				case 3: // loan
@@ -371,11 +371,11 @@ public class insertFrame extends JFrame implements ActionListener, KeyListener {
 					this.dispose();
 					break;
 				case 1: // withdraw
-					new inputPasswordFrame(0, main);
+					new inputMoneyFrame(3, main);
 					this.dispose();
 					break;
 				case 2: // exchange
-					new inputPasswordFrame(1, main);
+					new selectCountry(main);
 					this.dispose();
 					break;
 				case 3: // loan
@@ -397,7 +397,6 @@ public class insertFrame extends JFrame implements ActionListener, KeyListener {
 					this.dispose();
 					break;
 				case 6: // payub
-					System.out.println(temp.getAccount().getBank());
 					new inputPasswordFrame(5, main, temp.getAccount());
 					this.dispose();
 					break;

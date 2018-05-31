@@ -272,24 +272,15 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 					}
 					break;
 				case 2: // 이체
-					if ((error = main.transfer(
-							Integer.parseInt(money.getText().substring(0, money.getText().length() - 1)),
-							this.account)) == 0) {
-						new ReceiptFrame(main);
-					} else {
-						new errorPrintFrame(error);
-					}
+					main.bank = Integer.parseInt(money.getText().substring(0, money.getText().length() - 1));
+					new inputPasswordFrame(4, main, account);
 					this.dispose();
 					break;
 				case 3: // 출금
 					if (money.getText().length() > 5 && (money.getText()
 							.substring(money.getText().length() - 5, money.getText().length() - 1).equals("0000"))) {
-						if ((error = main.withdraw(
-								Integer.parseInt(money.getText().substring(0, money.getText().length() - 1)))) == 0) {
-							new ReceiptFrame(main);
-						} else {
-							new errorPrintFrame(error);
-						}
+						main.bank = Integer.parseInt(money.getText().substring(0, money.getText().length() - 1));
+						new inputPasswordFrame(0, main);
 						this.dispose();
 					} else {
 						state.setText("10000원 단위로만 입금가능합니다.");
@@ -300,12 +291,8 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 				case 4: // 대출
 					if (money.getText().length() > 5 && (money.getText()
 							.substring(money.getText().length() - 5, money.getText().length() - 1).equals("0000"))) {
-						if ((error = main.loan(
-								Integer.parseInt(money.getText().substring(0, money.getText().length() - 1)))) == 0) {
-							new ReceiptFrame(main);
-						} else {
-							new errorPrintFrame(error);
-						}
+						main.bank = Integer.parseInt(money.getText().substring(0, money.getText().length() - 1));
+						new inputPasswordFrame(2, main);
 						this.dispose();
 					} else {
 						state.setText("10000원 단위로만 입금가능합니다.");
@@ -461,24 +448,15 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 					}
 					break;
 				case 2: // 이체
-					if ((error = main.transfer(
-							Integer.parseInt(money.getText().substring(0, money.getText().length() - 1)),
-							this.account)) == 0) {
-						new ReceiptFrame(main);
-					} else {
-						new errorPrintFrame(error);
-					}
+					main.bank = Integer.parseInt(money.getText().substring(0, money.getText().length() - 1));
+					new inputPasswordFrame(4, main, account);
 					this.dispose();
 					break;
 				case 3: // 출금
 					if (money.getText().length() > 5 && (money.getText()
 							.substring(money.getText().length() - 5, money.getText().length() - 1).equals("0000"))) {
-						if ((error = main.withdraw(
-								Integer.parseInt(money.getText().substring(0, money.getText().length() - 1)))) == 0) {
-							new ReceiptFrame(main);
-						} else {
-							new errorPrintFrame(error);
-						}
+						main.bank = Integer.parseInt(money.getText().substring(0, money.getText().length() - 1));
+						new inputPasswordFrame(0, main);
 						this.dispose();
 					} else {
 						state.setText("10000원 단위로만 입금가능합니다.");
@@ -489,12 +467,8 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 				case 4: // 대출
 					if (money.getText().length() > 5 && (money.getText()
 							.substring(money.getText().length() - 5, money.getText().length() - 1).equals("0000"))) {
-						if ((error = main.loan(
-								Integer.parseInt(money.getText().substring(0, money.getText().length() - 1)))) == 0) {
-							new ReceiptFrame(main);
-						} else {
-							new errorPrintFrame(error);
-						}
+						main.bank = Integer.parseInt(money.getText().substring(0, money.getText().length() - 1));
+						new inputPasswordFrame(2, main);
 						this.dispose();
 					} else {
 						state.setText("10000원 단위로만 입금가능합니다.");

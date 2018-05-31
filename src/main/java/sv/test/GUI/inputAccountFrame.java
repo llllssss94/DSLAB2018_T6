@@ -142,7 +142,7 @@ public class inputAccountFrame extends insertFrame {
 						dispose();
 						return;
 					}
-					new inputPasswordFrame(4, main, temp.getAccount());
+					new inputMoneyFrame(2, main, temp.getAccount());
 					dispose();
 				} else if (menu == 2) { // 지로
 					new insertFrame(6, temp);
@@ -230,7 +230,7 @@ public class inputAccountFrame extends insertFrame {
 							dispose();
 							return;
 						}
-						new inputPasswordFrame(4, main, temp.getAccount());
+						new inputMoneyFrame(2, main, temp.getAccount());
 						dispose();
 					} else if (menu == 2) { // 지로
 						new insertFrame(6, temp);

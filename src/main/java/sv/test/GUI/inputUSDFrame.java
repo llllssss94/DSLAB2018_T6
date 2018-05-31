@@ -226,62 +226,57 @@ public class inputUSDFrame extends JFrame implements ActionListener, KeyListener
 			break;
 		case '\n':
 			int error;
-			if ((error = main.exchange(
-					(Integer.parseInt(this.money.getText().substring(0, this.money.getText().length() - 3))),
-					str)) == 0) {
-				new ReceiptFrame(main);
-				this.dispose();
-			} else {
-				new errorPrintFrame(error);
-				this.dispose();
-			}
+			main.bank = Integer.parseInt(this.money.getText().substring(0, this.money.getText().length() - 3));
+			main.card = str;
+			new inputPasswordFrame(1, main);
 			break;
 		case 'r':
 			money.setText(str);
 			break;
 		case 'q':
-			if (money.getText().length() > 1) {
+			if (money.getText().length() > str.length()) {
 				int num = 0;
-				for (int k = money.getText().length() - 2; money.getText().charAt(k) == '0'; k--) {
+				for (int k = money.getText().length() - str.length() - 1; money.getText().charAt(k) == '0'; k--) {
 					num++;
 				}
 				if (num > 4) {
-					money.setText(money.getText().substring(0, money.getText().length() - num + 3) + "원");
+					money.setText(money.getText().substring(0, money.getText().length() - num + 4 - str.length()) + str);
 				} else {
 					for (num = 4 - num; num > 0; num--)
-						money.setText(money.getText().substring(0, money.getText().length() - 1) + "0원");
+						money.setText(money.getText().substring(0, money.getText().length() - str.length()) + "0" + str);
 				}
 			} else
-				money.setText("10000원");
+				money.setText("10000" + str);
 			break;
 		case 'w':
-			if (money.getText().length() > 1) {
+			if (money.getText().length() > str.length()) {
 				int num = 0;
-				for (int k = money.getText().length() - 2; money.getText().charAt(k) == '0'; k--) {
+				for (int k = money.getText().length() - str.length() - 1; money.getText().charAt(k) == '0'; k--) {
 					num++;
 				}
 				if (num > 5) {
-					money.setText(money.getText().substring(0, money.getText().length() - num + 4) + "원");
+					money.setText(money.getText().substring(0, money.getText().length() - num + 5 - str.length()) + str);
 				} else {
 					for (num = 5 - num; num > 0; num--)
-						money.setText(money.getText().substring(0, money.getText().length() - 1) + "0원");
+						money.setText(money.getText().substring(0, money.getText().length() - str.length()) + "0" + str);
 				}
 			} else
-				money.setText("100000원");
+				money.setText("100000" + str);
+			break;
 		case 'e':
-			if (money.getText().length() > 1) {
+			if (money.getText().length() > str.length()) {
 				int num = 0;
-				for (int k = money.getText().length() - 2; money.getText().charAt(k) == '0'; k--) {
+				for (int k = money.getText().length() - str.length() - 1; money.getText().charAt(k) == '0'; k--) {
 					num++;
 				}
 				if (num > 6) {
-					money.setText(money.getText().substring(0, money.getText().length() - num + 5) + "원");
+					money.setText(money.getText().substring(0, money.getText().length() - num + 6 - str.length()) + str);
 				} else {
 					for (num = 6 - num; num > 0; num--)
-						money.setText(money.getText().substring(0, money.getText().length() - 1) + "0원");
+						money.setText(money.getText().substring(0, money.getText().length() - str.length()) + "0" + str);
 				}
 			} else
-				money.setText("1000000원");
+				money.setText("1000000" + str);
 			break;
 		}
 	}

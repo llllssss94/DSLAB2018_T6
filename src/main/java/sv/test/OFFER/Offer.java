@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import ATM.Account;
 
 public class Offer {
-	private String company;		
+	String company;
 	private BufferedReader input;
 	private PrintWriter output;
 	
@@ -20,7 +20,7 @@ public class Offer {
 	
 	public boolean checkValid(Account account) {
 		try {
-			String direc = "./회사/" + company + "/" +account.getAccountNumber() + "/개인정보.txt";
+			String direc = "./회사/" + account.getBank() + "/" +account.getAccountNumber() + "/개인정보.txt";
 			System.out.println(direc);
 			this.input = new BufferedReader(new FileReader(direc));			
 			this.input.close();
@@ -37,12 +37,12 @@ public class Offer {
 			String direc;
 			boolean card = newAccount.getBank().substring(2, 4).equals("카드");
 			
-			direc = "./회사/" + company + "/" +newAccount.getAccountNumber() + "/로그.txt";
+			direc = "./회사/" + newAccount.getBank() + "/" +newAccount.getAccountNumber() + "/로그.txt";
 			this.output = new PrintWriter(direc);
 			this.output.print(newAccount.getLog());
 			this.output.flush();
 			this.output.close();
-			direc = "./회사/" + company + "/" +newAccount.getAccountNumber() + "/개인정보.txt";
+			direc = "./회사/" + newAccount.getBank() + "/" +newAccount.getAccountNumber() + "/개인정보.txt";
 			this.output = new PrintWriter(direc);
 			this.output.println(newAccount.getIsLocked());
 			this.output.println(newAccount.getName());
@@ -52,7 +52,7 @@ public class Offer {
 				this.output.println(newAccount.getLimit());
 				this.output.flush();
 				this.output.close();
-				direc = "./회사/" + company + "/" +newAccount.getAccountNumber() + "/잔액.txt";
+				direc = "./회사/" + newAccount.getBank() + "/" +newAccount.getAccountNumber() + "/잔액.txt";
 				this.output = new PrintWriter(direc);
 				this.output.println(newAccount.getDept());
 				this.output.flush();
@@ -60,7 +60,7 @@ public class Offer {
 			} else {
 				this.output.flush();
 				this.output.close();
-				direc = "./회사/" + company + "/" +newAccount.getAccountNumber() + "/잔액.txt";
+				direc = "./회사/" + newAccount.getBank() + "/" +newAccount.getAccountNumber() + "/잔액.txt";
 				this.output = new PrintWriter(direc);
 				this.output.println(newAccount.getBalance());
 				this.output.flush();
@@ -76,29 +76,31 @@ public class Offer {
 		try {
 			String direc;
 			boolean card = currentAccount.getBank().substring(2, 4).equals("카드");
-			direc = "./회사/" + company + "/" +currentAccount.getAccountNumber() + "/개인정보.txt";
+			direc = "./회사/" + currentAccount.getBank() + "/" +currentAccount.getAccountNumber() + "/개인정보.txt";
+			System.out.println("///////"+currentAccount.getBank() + " " + currentAccount.getAccountNumber());
+			System.out.println("direc = " + direc);
 			this.input = new BufferedReader(new FileReader(direc));
 			if(input.readLine().equals("true")) {
 				currentAccount.setIsLocked(true);
 				return 5;
-			}
+			}			
 			currentAccount.setName(this.input.readLine());
 			currentAccount.setPassword(Integer.parseInt(this.input.readLine()));
 			currentAccount.setRate(Integer.parseInt(this.input.readLine()));
 			if(card) {
 				currentAccount.setLimit(Integer.parseInt(this.input.readLine()));
 				this.input.close();
-				direc = "./회사/" + company + "/" +currentAccount.getAccountNumber() + "/잔액.txt";
+				direc = "./회사/" + currentAccount.getBank() + "/" +currentAccount.getAccountNumber() + "/잔액.txt";
 				this.input = new BufferedReader(new FileReader(direc));
 				currentAccount.setDept(Integer.parseInt(input.readLine()));
 			} else {
 				this.input.close();
-				direc = "./회사/" + company + "/" +currentAccount.getAccountNumber() + "/잔액.txt";
+				direc = "./회사/" + currentAccount.getBank() + "/" +currentAccount.getAccountNumber() + "/잔액.txt";
 				this.input = new BufferedReader(new FileReader(direc));
 				currentAccount.setBalance(Integer.parseInt(input.readLine()));
 			}
 			
-			direc = "./회사/" + company + "/" +currentAccount.getAccountNumber() + "/로그.txt";
+			direc = "./회사/" + currentAccount.getBank() + "/" +currentAccount.getAccountNumber() + "/로그.txt";
 			this.input = new BufferedReader(new FileReader(direc));
 			String log = "";
 			String tempLog;
