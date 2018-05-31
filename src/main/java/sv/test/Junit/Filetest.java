@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import ATM.Account;
 import OFFER.Offer;
-//PMD
+//CheckStyle
 public class Filetest {
 
 	@Test
