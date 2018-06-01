@@ -5,24 +5,24 @@ public class Account {
 	private String bank;
 	private String accountNumber;
 	private String log;
-	private int limit;
-	private int dept;
+	private String limit;
+	private String dept;
 	private boolean isLocked;
 	private int password;
 	private int rate;
-	private int balance;
+	private String balance;
 	
 	public Account() {
 		this.setName(null);
 		this.setBank(null);
 		this.setAccountNumber(null);
 		this.setLog(null);
-		this.setLimit(0);
-		this.setDept(0);
+		this.setLimit(null);
+		this.setDept(null);
 		this.setIsLocked(false);
 		this.setPassword(0000);
 		this.setRate(0);
-		this.setBalance(0);		
+		this.setBalance(null);		
 	}
 	
 	public boolean checkPassword(int password) {
@@ -39,11 +39,11 @@ public class Account {
 		return this.log;
 	}
 	
-	public void setBalance(int balance) {
+	public void setBalance(String balance) {
 		this.balance = balance;
 	}
 	
-	public int getBalance() {
+	public String getBalance() {
 		return this.balance;
 	}
 	
@@ -71,19 +71,19 @@ public class Account {
 		return this.accountNumber;
 	}
 	
-	public void setLimit(int limit) {
+	public void setLimit(String limit) {
 		this.limit = limit;
 	}
 	
-	public int getLimit() {
+	public String getLimit() {
 		return this.limit;
 	}
 	
-	public void setDept(int dept) {
+	public void setDept(String dept) {
 		this.dept = dept;
 	}
 	
-	public int getDept() {
+	public String getDept() {
 		return this.dept;
 	}
 	

@@ -229,55 +229,101 @@ public class insertFrame extends JFrame implements ActionListener, KeyListener {
 				state.setText("한국은행은 일반 거래는 불가합니다.");
 				state.setOpaque(true);
 				state.setBackground(Color.LIGHT_GRAY);
-				return;
-			}
-			this.main.insert(String.valueOf(combo.getSelectedIndex()) + tf.getText());
-			if (main.offer[combo.getSelectedIndex()].checkValid(main.getAccount())) {
-				int error;
-				if ((error = main.offer[combo.getSelectedIndex()].readDatabase(main.getAccount())) != 0) {
-					new errorPrintFrame(error);
-					this.dispose();
-					return;
-				}
-				switch (menu) {
-				case 0: // deposit
-					new inputMoneyFrame(0, main);
-					this.dispose();
-					break;
-				case 1: // withdraw
-					new inputMoneyFrame(3, main);
-					this.dispose();
-					break;
-				case 2: // exchange
-					new selectCountry(main);
-					this.dispose();
-					break;
-				case 3: // loan
-					if (combo.getSelectedIndex() < 7) {
-						state.setText("대출은 카드사만 이용가능합니다.");
-						state.setOpaque(true);
-						state.setBackground(Color.LIGHT_GRAY);
-					} else {
-						new inputPasswordFrame(2, main);
-						this.dispose();
-					}
-					break;
-				case 4: // checkbalance
-					new inputPasswordFrame(3, main);
-					this.dispose();
-					break;
-				case 5: // transfer
-					new inputAccountFrame(1, main);
-					this.dispose();
-					break;
-				case 6: // payub
-					new inputPasswordFrame(5, main, temp.getAccount());
-					this.dispose();
-					break;
-				}
 			} else {
-				new errorPrintFrame(3);
-				this.dispose();
+				this.main.insert(String.valueOf(combo.getSelectedIndex()) + tf.getText());
+				if (main.offer[combo.getSelectedIndex()].checkValid(main.getAccount())) {
+					int error;
+					if ((error = main.offer[combo.getSelectedIndex()].readDatabase(main.getAccount())) != 0) {
+						new errorPrintFrame(error);
+						this.dispose();
+					} else {
+						switch (menu) {
+						case 0: // deposit
+							if (combo.getSelectedIndex() == 6) {
+								state.setText("한국은행계좌로 거래를 진행하실 수 없습니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else {
+								new inputMoneyFrame(0, main);
+								this.dispose();
+							}
+							break;
+						case 1: // withdraw
+							if (combo.getSelectedIndex() > 6) {
+								state.setText("카드사는 출금이 불가능합니다. 대출을 이용해 주십시오.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else if (combo.getSelectedIndex() == 6) {
+								state.setText("한국은행계좌로 거래를 진행하실 수 없습니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else {
+								new inputMoneyFrame(3, main);
+								this.dispose();
+							}
+							break;
+						case 2: // exchange
+							if (combo.getSelectedIndex() > 6) {
+								state.setText("카드사는 환전이 불가능합니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else if (combo.getSelectedIndex() == 6) {
+								state.setText("한국은행계좌로 거래를 진행하실 수 없습니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else {
+								new selectCountry(main);
+								this.dispose();
+							}
+							break;
+						case 3: // loan
+							if (combo.getSelectedIndex() < 7) {
+								state.setText("대출은 카드사만 이용가능합니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else {
+								new inputMoneyFrame(4, main);
+								this.dispose();
+							}
+							break;
+						case 4: // checkbalance
+							new inputPasswordFrame(3, main);
+							this.dispose();
+							break;
+						case 5: // transfer
+							if (combo.getSelectedIndex() > 6) {
+								state.setText("카드사는 송금이 불가능합니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else if (combo.getSelectedIndex() == 6) {
+								state.setText("한국은행계좌로 거래를 진행하실 수 없습니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else {
+								new inputAccountFrame(1, main);
+								this.dispose();
+							}
+							break;
+						case 6: // payub
+							if (combo.getSelectedIndex() > 6) {
+								state.setText("카드사는 공과금납부가 불가능합니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else if (combo.getSelectedIndex() == 6) {
+								state.setText("한국은행계좌로 거래를 진행하실 수 없습니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else {
+								new inputPasswordFrame(5, main, temp.getAccount());
+								this.dispose();
+							}
+							break;
+						}
+					}
+				} else {
+					new errorPrintFrame(3);
+					this.dispose();
+				}
 			}
 		} else if (e.getSource() == bb && tf.getText().length() > 0) {
 			tf.setText(tf.getText().substring(0, tf.getText().length() - 1));
@@ -355,57 +401,103 @@ public class insertFrame extends JFrame implements ActionListener, KeyListener {
 				state.setText("한국은행은 일반 거래는 불가합니다.");
 				state.setOpaque(true);
 				state.setBackground(Color.LIGHT_GRAY);
-				return;
-			}
-			this.main.insert(String.valueOf(combo.getSelectedIndex()) + tf.getText());
-			if (main.offer[combo.getSelectedIndex()].checkValid(main.getAccount())) {
-				int error;
-				if ((error = main.offer[combo.getSelectedIndex()].readDatabase(main.getAccount())) != 0) {
-					new errorPrintFrame(error);
-					this.dispose();
-					return;
-				}
-				switch (menu) {
-				case 0: // deposit
-					new inputMoneyFrame(0, main);
-					this.dispose();
-					break;
-				case 1: // withdraw
-					new inputMoneyFrame(3, main);
-					this.dispose();
-					break;
-				case 2: // exchange
-					new selectCountry(main);
-					this.dispose();
-					break;
-				case 3: // loan
-					if (combo.getSelectedIndex() < 7) {
-						state.setText("대출은 카드사만 이용가능합니다.");
-						state.setOpaque(true);
-						state.setBackground(Color.LIGHT_GRAY);
-					} else {
-						new inputPasswordFrame(2, main);
-						this.dispose();
-					}
-					break;
-				case 4: // checkbalance
-					new inputPasswordFrame(3, main);
-					this.dispose();
-					break;
-				case 5: // transfer
-					new inputAccountFrame(1, main);
-					this.dispose();
-					break;
-				case 6: // payub
-					new inputPasswordFrame(5, main, temp.getAccount());
-					this.dispose();
-					break;
-				}
 			} else {
-				new errorPrintFrame(3);
-				this.dispose();
+				this.main.insert(String.valueOf(combo.getSelectedIndex()) + tf.getText());
+				if (main.offer[combo.getSelectedIndex()].checkValid(main.getAccount())) {
+					int error;
+					if ((error = main.offer[combo.getSelectedIndex()].readDatabase(main.getAccount())) != 0) {
+						new errorPrintFrame(error);
+						this.dispose();
+					} else {
+						switch (menu) {
+						case 0: // deposit
+							if (combo.getSelectedIndex() == 6) {
+								state.setText("한국은행계좌로 거래를 진행하실 수 없습니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else {
+								new inputMoneyFrame(0, main);
+								this.dispose();
+							}
+							break;
+						case 1: // withdraw
+							if (combo.getSelectedIndex() > 6) {
+								state.setText("카드사는 출금이 불가능합니다. 대출을 이용해 주십시오.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else if (combo.getSelectedIndex() == 6) {
+								state.setText("한국은행계좌로 거래를 진행하실 수 없습니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else {
+								new inputMoneyFrame(3, main);
+								this.dispose();
+							}
+							break;
+						case 2: // exchange
+							if (combo.getSelectedIndex() > 6) {
+								state.setText("카드사는 환전이 불가능합니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else if (combo.getSelectedIndex() == 6) {
+								state.setText("한국은행계좌로 거래를 진행하실 수 없습니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else {
+								new selectCountry(main);
+								this.dispose();
+							}
+							break;
+						case 3: // loan
+							if (combo.getSelectedIndex() < 7) {
+								state.setText("대출은 카드사만 이용가능합니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else {
+								new inputMoneyFrame(4, main);
+								this.dispose();
+							}
+							break;
+						case 4: // checkbalance
+							new inputPasswordFrame(3, main);
+							this.dispose();
+							break;
+						case 5: // transfer
+							if (combo.getSelectedIndex() > 6) {
+								state.setText("카드사는 송금이 불가능합니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else if (combo.getSelectedIndex() == 6) {
+								state.setText("한국은행계좌로 거래를 진행하실 수 없습니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else {
+								new inputAccountFrame(1, main);
+								this.dispose();
+							}
+							break;
+						case 6: // payub
+							if (combo.getSelectedIndex() > 6) {
+								state.setText("카드사는 공과금납부가 불가능합니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else if (combo.getSelectedIndex() == 6) {
+								state.setText("한국은행계좌로 거래를 진행하실 수 없습니다.");
+								state.setOpaque(true);
+								state.setBackground(Color.LIGHT_GRAY);
+							} else {
+								new inputPasswordFrame(5, main, temp.getAccount());
+								this.dispose();
+							}
+							break;
+						}
+					}
+				} else {
+					new errorPrintFrame(3);
+					this.dispose();
+				}
+				break;
 			}
-			break;
 		}
 	}
 }

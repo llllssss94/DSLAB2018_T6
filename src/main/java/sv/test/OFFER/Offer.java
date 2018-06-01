@@ -21,12 +21,9 @@ public class Offer {
 	public boolean checkValid(Account account) {
 		try {
 			String direc = "./회사/" + account.getBank() + "/" +account.getAccountNumber() + "/개인정보.txt";
-			System.out.println(direc);
 			this.input = new BufferedReader(new FileReader(direc));			
 			this.input.close();
-			System.out.println("valid input");
 		} catch(Exception e) {
-			System.out.println("invalid input");
 			return false;
 		}
 		return true;
@@ -77,8 +74,6 @@ public class Offer {
 			String direc;
 			boolean card = currentAccount.getBank().substring(2, 4).equals("카드");
 			direc = "./회사/" + currentAccount.getBank() + "/" +currentAccount.getAccountNumber() + "/개인정보.txt";
-			System.out.println("///////"+currentAccount.getBank() + " " + currentAccount.getAccountNumber());
-			System.out.println("direc = " + direc);
 			this.input = new BufferedReader(new FileReader(direc));
 			if(input.readLine().equals("true")) {
 				currentAccount.setIsLocked(true);
@@ -88,16 +83,16 @@ public class Offer {
 			currentAccount.setPassword(Integer.parseInt(this.input.readLine()));
 			currentAccount.setRate(Integer.parseInt(this.input.readLine()));
 			if(card) {
-				currentAccount.setLimit(Integer.parseInt(this.input.readLine()));
+				currentAccount.setLimit(this.input.readLine());
 				this.input.close();
 				direc = "./회사/" + currentAccount.getBank() + "/" +currentAccount.getAccountNumber() + "/잔액.txt";
 				this.input = new BufferedReader(new FileReader(direc));
-				currentAccount.setDept(Integer.parseInt(input.readLine()));
+				currentAccount.setDept(input.readLine());
 			} else {
 				this.input.close();
 				direc = "./회사/" + currentAccount.getBank() + "/" +currentAccount.getAccountNumber() + "/잔액.txt";
 				this.input = new BufferedReader(new FileReader(direc));
-				currentAccount.setBalance(Integer.parseInt(input.readLine()));
+				currentAccount.setBalance(input.readLine());
 			}
 			
 			direc = "./회사/" + currentAccount.getBank() + "/" +currentAccount.getAccountNumber() + "/로그.txt";
@@ -110,10 +105,8 @@ public class Offer {
 			currentAccount.setLog(log);
 			this.input.close();		
 		} catch(Exception e) {
-			System.out.println("error 1 : [requestInformationFromServer] load information failed");
 			return 1;
 		}
-		System.out.println("success : [requestInformationFromServer] end");
 		return 0;
 	}
 }

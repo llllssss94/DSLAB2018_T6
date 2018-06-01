@@ -92,11 +92,6 @@ public class mainFrame extends JFrame implements ActionListener, KeyListener {
 			this.dispose();
 		}
 	}
-
-	public static void main(String[] args) {
-		new mainFrame();
-	}
-
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub

@@ -228,11 +228,7 @@ public class inputPasswordFrame extends JFrame implements ActionListener, KeyLis
 		int error;
 		switch (menu) {
 		case 0: // withdraw
-			if ((error = main.withdraw(main.bank)) == 0) {
-				new ReceiptFrame(main);
-			} else {
-				new errorPrintFrame(error);
-			}
+			new selectMoneyFrame(0, main);
 			this.dispose();
 			break;
 		case 1: // exchange
@@ -246,11 +242,7 @@ public class inputPasswordFrame extends JFrame implements ActionListener, KeyLis
 			this.dispose();
 			break;
 		case 2: // loan
-			if ((error = main.loan(main.bank)) == 0) {
-				new ReceiptFrame(main);
-			} else {
-				new errorPrintFrame(error);
-			}
+			new selectMoneyFrame(1, main);
 			this.dispose();
 			break;
 		case 3: // checkbalance

@@ -43,32 +43,32 @@ public class systemtest {
 	@Test
 	public void testDeposit() {
 		main.insert("023456789");
-		assertEquals(main.deposit(30000), 2);
+		assertEquals(main.deposit("30000"), 2);
 	}
 
 	@Test
 	public void testWithdraw() {
 		main.insert("023456789");
-		assertEquals(main.withdraw(30000), 2);
+		assertEquals(main.withdraw("30000"), 2);
 	}
 
 	@Test
 	public void testTransfer() {
 		main.insert("023456789");
 		Account account = new Account();
-		assertEquals(main.transfer(30000, account), 2);		
+		assertEquals(main.transfer("30000", account), 2);		
 	}
 
 	@Test
 	public void testExchange() {
 		main.insert("023456789");
-		assertEquals(main.exchange(30000, "USD"), 1);
+		assertEquals(main.exchange("30000", "USD"), 1);
 	}
 
 	@Test
 	public void testLoan() {
 		main.insert("023456789");
-		assertEquals(main.loan(30000), 7);
+		assertEquals(main.loan("30000"), 7);
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class systemtest {
 	@Test
 	public void testDepositWithoutBank() {
 		main.insert("023456789");		
-		assertEquals(main.depositWithoutBank(30000), 2);
+		assertEquals(main.depositWithoutBank("30000"), 2);
 	}
 
 	@Test

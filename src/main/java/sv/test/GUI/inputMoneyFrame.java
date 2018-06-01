@@ -243,7 +243,7 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 					if (money.getText().length() > 5 && money.getText()
 							.substring(money.getText().length() - 5, money.getText().length() - 1).equals("0000")) {
 						if ((error = main.deposit(
-								Integer.parseInt(money.getText().substring(0, money.getText().length() - 1)))) == 0) {
+								money.getText().substring(0, money.getText().length() - 1))) == 0) {
 							new ReceiptFrame(main);
 						} else {
 							new errorPrintFrame(error);
@@ -259,7 +259,7 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 					if (money.getText().length() > 5 && (money.getText()
 							.substring(money.getText().length() - 5, money.getText().length() - 1).equals("0000"))) {
 						if ((error = main.depositWithoutBank(
-								Integer.parseInt(money.getText().substring(0, money.getText().length() - 1)))) == 0) {
+								money.getText().substring(0, money.getText().length() - 1))) == 0) {
 							new ReceiptFrame(main);
 						} else {
 							new errorPrintFrame(error);
@@ -272,14 +272,14 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 					}
 					break;
 				case 2: // 이체
-					main.bank = Integer.parseInt(money.getText().substring(0, money.getText().length() - 1));
+					main.bank = money.getText().substring(0, money.getText().length() - 1);
 					new inputPasswordFrame(4, main, account);
 					this.dispose();
 					break;
 				case 3: // 출금
 					if (money.getText().length() > 5 && (money.getText()
 							.substring(money.getText().length() - 5, money.getText().length() - 1).equals("0000"))) {
-						main.bank = Integer.parseInt(money.getText().substring(0, money.getText().length() - 1));
+						main.bank = (money.getText().substring(0, money.getText().length() - 1));
 						new inputPasswordFrame(0, main);
 						this.dispose();
 					} else {
@@ -291,7 +291,7 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 				case 4: // 대출
 					if (money.getText().length() > 5 && (money.getText()
 							.substring(money.getText().length() - 5, money.getText().length() - 1).equals("0000"))) {
-						main.bank = Integer.parseInt(money.getText().substring(0, money.getText().length() - 1));
+						main.bank = (money.getText().substring(0, money.getText().length() - 1));
 						new inputPasswordFrame(2, main);
 						this.dispose();
 					} else {
@@ -323,7 +323,8 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 		char key = e.getKeyChar();
 		switch (key) {
 		case '0':
-			money.setText(money.getText().substring(0, money.getText().length() - 1) + String.valueOf(0) + "원");
+			if(money.getText().length() > 1)
+				money.setText(money.getText().substring(0, money.getText().length() - 1) + String.valueOf(0) + "원");
 			break;
 		case '1':
 			money.setText(money.getText().substring(0, money.getText().length() - 1) + String.valueOf(1) + "원");
@@ -419,14 +420,14 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 					if (money.getText().length() > 5 && money.getText()
 							.substring(money.getText().length() - 5, money.getText().length() - 1).equals("0000")) {
 						if ((error = main.deposit(
-								Integer.parseInt(money.getText().substring(0, money.getText().length() - 1)))) == 0) {
+								money.getText().substring(0, money.getText().length() - 1))) == 0) {
 							new ReceiptFrame(main);
 						} else {
 							new errorPrintFrame(error);
 						}
 						this.dispose();
 					} else {
-						state.setText("10000원 단위로만 입금가능합니다.");
+						state.setText("10000원 단위로만 입력가능합니다.");
 						state.setOpaque(true);
 						state.setBackground(Color.LIGHT_GRAY);
 					}
@@ -435,31 +436,31 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 					if (money.getText().length() > 5 && (money.getText()
 							.substring(money.getText().length() - 5, money.getText().length() - 1).equals("0000"))) {
 						if ((error = main.depositWithoutBank(
-								Integer.parseInt(money.getText().substring(0, money.getText().length() - 1)))) == 0) {
+								money.getText().substring(0, money.getText().length() - 1))) == 0) {
 							new ReceiptFrame(main);
 						} else {
 							new errorPrintFrame(error);
 						}
 						this.dispose();
 					} else {
-						state.setText("10000원 단위로만 입금가능합니다.");
+						state.setText("10000원 단위로만 입력가능합니다.");
 						state.setOpaque(true);
 						state.setBackground(Color.LIGHT_GRAY);
 					}
 					break;
 				case 2: // 이체
-					main.bank = Integer.parseInt(money.getText().substring(0, money.getText().length() - 1));
+					main.bank = (money.getText().substring(0, money.getText().length() - 1));
 					new inputPasswordFrame(4, main, account);
 					this.dispose();
 					break;
 				case 3: // 출금
 					if (money.getText().length() > 5 && (money.getText()
 							.substring(money.getText().length() - 5, money.getText().length() - 1).equals("0000"))) {
-						main.bank = Integer.parseInt(money.getText().substring(0, money.getText().length() - 1));
+						main.bank = (money.getText().substring(0, money.getText().length() - 1));
 						new inputPasswordFrame(0, main);
 						this.dispose();
 					} else {
-						state.setText("10000원 단위로만 입금가능합니다.");
+						state.setText("10000원 단위로만 입력가능합니다.");
 						state.setOpaque(true);
 						state.setBackground(Color.LIGHT_GRAY);
 					}
@@ -467,11 +468,11 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 				case 4: // 대출
 					if (money.getText().length() > 5 && (money.getText()
 							.substring(money.getText().length() - 5, money.getText().length() - 1).equals("0000"))) {
-						main.bank = Integer.parseInt(money.getText().substring(0, money.getText().length() - 1));
+						main.bank = money.getText().substring(0, money.getText().length() - 1);
 						new inputPasswordFrame(2, main);
 						this.dispose();
 					} else {
-						state.setText("10000원 단위로만 입금가능합니다.");
+						state.setText("10000원 단위로만 입력가능합니다.");
 						state.setOpaque(true);
 						state.setBackground(Color.LIGHT_GRAY);
 					}

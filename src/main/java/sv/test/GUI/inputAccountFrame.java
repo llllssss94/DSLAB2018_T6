@@ -130,23 +130,35 @@ public class inputAccountFrame extends insertFrame {
 				if ((error = temp.offer[combo.getSelectedIndex()].readDatabase(temp.getAccount())) != 0) {
 					new errorPrintFrame(error);
 					dispose();
-					return;
-				}
-				if (menu == 0) { // 무통장
-					new inputMoneyFrame(1, temp);
-					dispose();
-				} else if (menu == 1) { // 이체
-					if (main.getAccount().getAccountNumber().equals(temp.getAccount().getAccountNumber())
-							&& main.getAccount().getBank().equals(temp.getAccount().getBank())) {
-						new errorPrintFrame(8);
+				} else {
+					if (menu == 0) { // 무통장
+						if (combo.getSelectedIndex() == 6) {
+							state.setText("한국은행계좌로 거래를 진행하실 수 없습니다.");
+							state.setOpaque(true);
+							state.setBackground(Color.LIGHT_GRAY);
+						} else {
+							new inputMoneyFrame(1, temp);
+							dispose();
+						}
+					} else if (menu == 1) { // 이체
+						if (combo.getSelectedIndex() == 6) {
+							state.setText("한국은행계좌로 거래를 진행하실 수 없습니다.");
+							state.setOpaque(true);
+							state.setBackground(Color.LIGHT_GRAY);
+						} else {
+							if (main.getAccount().getAccountNumber().equals(temp.getAccount().getAccountNumber())
+									&& main.getAccount().getBank().equals(temp.getAccount().getBank())) {
+								new errorPrintFrame(8);
+								dispose();
+							} else {
+								new inputMoneyFrame(2, main, temp.getAccount());
+								dispose();
+							}
+						}
+					} else if (menu == 2) { // 지로
+						new insertFrame(6, temp);
 						dispose();
-						return;
 					}
-					new inputMoneyFrame(2, main, temp.getAccount());
-					dispose();
-				} else if (menu == 2) { // 지로
-					new insertFrame(6, temp);
-					dispose();
 				}
 			} else {
 				new errorPrintFrame(2);
@@ -218,23 +230,23 @@ public class inputAccountFrame extends insertFrame {
 					if ((error = temp.offer[combo.getSelectedIndex()].readDatabase(temp.getAccount())) != 0) {
 						new errorPrintFrame(error);
 						dispose();
-						return;
-					}
-					if (menu == 0) { // 무통장
-						new inputMoneyFrame(1, temp);
-						dispose();
-					} else if (menu == 1) { // 이체
-						if (main.getAccount().getAccountNumber().equals(temp.getAccount().getAccountNumber())
-								&& main.getAccount().getBank().equals(temp.getAccount().getBank())) {
-							new errorPrintFrame(8);
+					} else {
+						if (menu == 0) { // 무통장
+							new inputMoneyFrame(1, temp);
 							dispose();
-							return;
+						} else if (menu == 1) { // 이체
+							if (main.getAccount().getAccountNumber().equals(temp.getAccount().getAccountNumber())
+									&& main.getAccount().getBank().equals(temp.getAccount().getBank())) {
+								new errorPrintFrame(8);
+								dispose();
+							} else {
+								new inputMoneyFrame(2, main, temp.getAccount());
+								dispose();
+							}
+						} else if (menu == 2) { // 지로
+							new insertFrame(6, temp);
+							dispose();
 						}
-						new inputMoneyFrame(2, main, temp.getAccount());
-						dispose();
-					} else if (menu == 2) { // 지로
-						new insertFrame(6, temp);
-						dispose();
 					}
 				} else {
 					new errorPrintFrame(2);
