@@ -106,7 +106,7 @@ public class MainSystem {
 		}
 		if ((this.errorType = offer[bank].readDatabase(account)) == 0) {
 			if ((account.getBank().equals("신한은행") && isBig(money, account.getBalance()))
-					|| (!account.getBank().equals("신한은행") && isBig((money + 1300), account.getBalance()))) {
+					|| (!account.getBank().equals("신한은행") && isBig(plus(money , "1300"), account.getBalance()))) {
 				return 1;
 			} else {
 				String newLog;
@@ -148,7 +148,7 @@ public class MainSystem {
 					return 3;
 				}
 				if ((account.getBank().equals("신한은행") && isBig(money, account.getBalance()))
-						|| (!account.getBank().equals("신한은행") && isBig(money + 1300, account.getBalance()))) {
+						|| (!account.getBank().equals("신한은행") && isBig(plus(money,"1300"), account.getBalance()))) {
 					return 1;
 				} else {
 					if (!account.getBank().equals("신한은행"))
@@ -234,7 +234,7 @@ public class MainSystem {
 			if (list_bank[bank].equals(account.getBank()))
 				break;
 		}
-		int[] exchangeRate = { 1100, 1000, 1280, 200 };
+		int[] exchangeRate = { 1100, 10, 1280, 200 };
 		String[] country = { "USD", "JPY", "EUR", "CNY" };
 		int i;
 		int won;
@@ -283,7 +283,7 @@ public class MainSystem {
 	}
 
 	public void takeCharge(Account account) {
-		if (account.getRate() > 3)
+		if (account.getRate() < 3)
 			return;
 		account.setBalance(minus(account.getBalance(), "1300"));
 		String newLog = new Date() + " 1300" + " 수수료 \t( 잔액 : " + account.getBalance() + " )\n" + account.getLog();
@@ -311,7 +311,7 @@ public class MainSystem {
 				return 2;
 			}
 			if ((account.getBank().equals("신한은행") && isBig(money, account.getBalance()))
-					|| (!account.getBank().equals("신한은행") && isBig(money + 1300, account.getBalance()))) {
+					|| (!account.getBank().equals("신한은행") && isBig(plus(money, "1300"), account.getBalance()))) {
 				return 1;
 			} else if (newAccount.getBalance().equals("0")) {
 				return 9;

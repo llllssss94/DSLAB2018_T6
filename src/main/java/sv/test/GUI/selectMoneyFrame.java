@@ -129,6 +129,7 @@ public class selectMoneyFrame extends JFrame implements ActionListener, KeyListe
 				} else {
 					new errorPrintFrame(error);
 				}
+				this.dispose();
 				break;
 			case 1:
 				if ((error = main.loan(main.bank)) == 0) {
@@ -137,6 +138,7 @@ public class selectMoneyFrame extends JFrame implements ActionListener, KeyListe
 				} else {
 					new errorPrintFrame(error);
 				}
+				this.dispose();
 				break;
 			}
 			break;
@@ -164,12 +166,14 @@ public class selectMoneyFrame extends JFrame implements ActionListener, KeyListe
 			main.b5 = l5.getText();
 			switch(menu) {
 			case 0:
+				
 				if ((error = main.withdraw(main.bank)) == 0) {
 					main.errorType = 20;
 					new ReceiptFrame(main);
 				} else {
 					new errorPrintFrame(error);
 				}
+				this.dispose();
 				break;
 			case 1:
 				if ((error = main.loan(main.bank)) == 0) {
@@ -178,6 +182,7 @@ public class selectMoneyFrame extends JFrame implements ActionListener, KeyListe
 				} else {
 					new errorPrintFrame(error);
 				}
+				this.dispose();
 				break;
 			}
 		}

@@ -62,12 +62,15 @@ public class systemtest {
 	@Test
 	public void testExchange() {
 		main.insert("023456789");
+		main.getAccount().setBalance("20000");
 		assertEquals(main.exchange("30000", "USD"), 1);
 	}
 
 	@Test
 	public void testLoan() {
 		main.insert("023456789");
+		main.getAccount().setDept("30000");
+		main.getAccount().setLimit("30000");
 		assertEquals(main.loan("30000"), 7);
 	}
 
@@ -75,6 +78,7 @@ public class systemtest {
 	public void testTakeCharge() {
 		main.insert("023456789");
 		main.offer[0].readDatabase(main.getAccount());
+		main.getAccount().setRate(1);
 		main.takeCharge(main.getAccount());
 		assertEquals(main.getAccount().getAccountNumber(), "23456789");
 	}
