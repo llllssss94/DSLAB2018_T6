@@ -40,6 +40,13 @@ public class ReceiptFrame extends JFrame implements ActionListener, KeyListener 
 			kk.setBackground(Color.LIGHT_GRAY);
 			add(kk, 0, 2, 5, 1);
 		}
+		if(this.main.ch == 21) {
+			JLabel jj = new JLabel("수수료 : 1300원");
+			jj.addKeyListener(this);
+			jj.setOpaque(true);
+			jj.setBackground(Color.LIGHT_GRAY);
+			add(jj, 0, 3, 5, 1);
+		}
 		main.errorType = 0;
 		txtL = new JLabel(main.getAccount().getLog().substring(0, main.getAccount().getLog().indexOf('\n')));
 		txtL.addKeyListener(this);
@@ -48,8 +55,8 @@ public class ReceiptFrame extends JFrame implements ActionListener, KeyListener 
 		add(txtL, 0, 1, 5, 1);
 		JLabel dd = new JLabel("이용해주셔서 감사합니다.");
 		dd.addKeyListener(this);
-		add(dd, 0, 3, 1, 1);
-		add(ok, 0, 4, 1, 1);
+		add(dd, 0, 4, 1, 1);
+		add(ok, 0, 5, 1, 1);
 		this.setSize(500, 500);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

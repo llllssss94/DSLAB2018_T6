@@ -12,7 +12,7 @@ public class MainSystem {
 	public Offer[] offer;
 	public String bank;
 	public String b5, b1;
-	public int errorType;
+	public int errorType, ch;
 
 	public MainSystem() {
 		account = new Account();
@@ -151,7 +151,7 @@ public class MainSystem {
 						|| (!account.getBank().equals("신한은행") && isBig(plus(money,"1300"), account.getBalance()))) {
 					return 1;
 				} else {
-					if (!account.getBank().equals("신한은행"))
+					if (!account.getBank().equals("신한은행") || !newAccount.getBalance().equals("신한은행"))
 						this.takeCharge(account);
 					if (newAccount.getBank().substring(2, 4).equals("카드")) {
 						if ((this.errorType = offer[bank].readDatabase(newAccount)) == 0) {
@@ -265,9 +265,10 @@ public class MainSystem {
 			if (list_bank[bank].equals(account.getBank()))
 				break;
 		}
-		if (isBig(plus(account.getDept(), money), account.getLimit())) {
+		if (isBig(plus(plus(account.getDept(), money),"1300"), account.getLimit())) {
 			return 7;
 		} else {
+			takeCharge(account);
 			offer[bank].readDatabase(account);
 			account.setDept(plus(account.getDept(), money));
 			String newLog = new Date() + " " + money + " 대출 " + "\t( 남은 한도 : "
@@ -285,6 +286,7 @@ public class MainSystem {
 	public void takeCharge(Account account) {
 		if (account.getRate() < 3)
 			return;
+		this.ch = 21;
 		account.setBalance(minus(account.getBalance(), "1300"));
 		String newLog = new Date() + " 1300" + " 수수료 \t( 잔액 : " + account.getBalance() + " )\n" + account.getLog();
 		account.setLog(newLog);
