@@ -150,9 +150,7 @@ public class MainSystem {
 				if ((account.getBank().equals("신한은행") && isBig(money, account.getBalance()))
 						|| (!account.getBank().equals("신한은행") && isBig(plus(money,"1300"), account.getBalance()))) {
 					return 1;
-				} else {
-					if (!account.getBank().equals("신한은행") || !newAccount.getBalance().equals("신한은행"))
-						this.takeCharge(account);
+				} else {					
 					if (newAccount.getBank().substring(2, 4).equals("카드")) {
 						if ((this.errorType = offer[bank].readDatabase(newAccount)) == 0) {
 							if (isBig(money, newAccount.getDept())) {
@@ -167,7 +165,7 @@ public class MainSystem {
 									return 2;
 								}
 								offer[bank].readDatabase(account);
-								if (account.getBank() != "신한은행")
+								if (!account.getBank().equals("신한은행") || !newAccount.getBank().equals("신한은행"))
 									takeCharge(account);
 								account.setBalance(minus(account.getBalance(), money));
 								newLog = new Date() + " " + money + " 송금 " + newAccount.getBank() + " "
@@ -201,6 +199,8 @@ public class MainSystem {
 						return 2;
 					}
 					offer[bank].readDatabase(account);
+					if (!account.getBank().equals("신한은행") || !newAccount.getBank().equals("신한은행"))
+						takeCharge(account);
 					account.setBalance(minus(account.getBalance(), money));
 					String newLog = new Date() + " " + money + " 송금 " + newAccount.getBank() + " "
 							+ newAccount.getAccountNumber() + "\t( 잔액 : " + account.getBalance() + " )\n";
