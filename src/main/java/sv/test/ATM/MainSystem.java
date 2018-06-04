@@ -63,7 +63,7 @@ public class MainSystem {
 				break;
 		}
 		if (this.account.getBank().substring(2, 4).equals("카드")) {
-			if ((this.errorType = offer[bank].readDatabase(account)) == 0) {				
+			if ((this.errorType = offer[bank].readDatabase(account)) == 0) {
 				if (isBig(money, account.getDept())) {
 					return 6;
 				} else {
@@ -106,7 +106,7 @@ public class MainSystem {
 		}
 		if ((this.errorType = offer[bank].readDatabase(account)) == 0) {
 			if ((account.getBank().equals("신한은행") && isBig(money, account.getBalance()))
-					|| (!account.getBank().equals("신한은행") && isBig(plus(money , "1300"), account.getBalance()))) {
+					|| (!account.getBank().equals("신한은행") && isBig(plus(money, "1300"), account.getBalance()))) {
 				return 1;
 			} else {
 				String newLog;
@@ -148,9 +148,9 @@ public class MainSystem {
 					return 3;
 				}
 				if ((account.getBank().equals("신한은행") && isBig(money, account.getBalance()))
-						|| (!account.getBank().equals("신한은행") && isBig(plus(money,"1300"), account.getBalance()))) {
+						|| (!account.getBank().equals("신한은행") && isBig(plus(money, "1300"), account.getBalance()))) {
 					return 1;
-				} else {					
+				} else {
 					if (newAccount.getBank().substring(2, 4).equals("카드")) {
 						if ((this.errorType = offer[bank].readDatabase(newAccount)) == 0) {
 							if (isBig(money, newAccount.getDept())) {
@@ -265,7 +265,7 @@ public class MainSystem {
 			if (list_bank[bank].equals(account.getBank()))
 				break;
 		}
-		if (isBig(plus(plus(account.getDept(), money),"1300"), account.getLimit())) {
+		if (isBig(plus(plus(account.getDept(), money), "1300"), account.getLimit())) {
 			return 7;
 		} else {
 			takeCharge(account);
@@ -287,7 +287,11 @@ public class MainSystem {
 		if (account.getRate() < 3)
 			return;
 		this.ch = 21;
-		account.setBalance(minus(account.getBalance(), "1300"));
+		if (account.getBank().substring(2, 4).equals("카드")) {
+			account.setDept(minus(account.getDept(), "1300"));
+		} else {
+			account.setBalance(minus(account.getBalance(), "1300"));
+		}
 		String newLog = new Date() + " 1300" + " 수수료 \t( 잔액 : " + account.getBalance() + " )\n" + account.getLog();
 		account.setLog(newLog);
 	}
