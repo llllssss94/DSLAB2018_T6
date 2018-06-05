@@ -161,7 +161,7 @@ public class inputAccountFrame extends insertFrame {
 					}
 				}
 			} else {
-				new errorPrintFrame(2);
+				new errorPrintFrame(3);
 				dispose();
 			}
 		}
@@ -249,7 +249,7 @@ public class inputAccountFrame extends insertFrame {
 						}
 					}
 				} else {
-					new errorPrintFrame(2);
+					new errorPrintFrame(3);
 					dispose();
 				}
 				break;

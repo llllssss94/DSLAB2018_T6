@@ -180,7 +180,7 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 			money.setText(money.getText().substring(0, money.getText().length() - 1) + String.valueOf(8) + "원");
 		} else if (e.getSource() == b[9]) {
 			money.setText(money.getText().substring(0, money.getText().length() - 1) + String.valueOf(9) + "원");
-		} else if (e.getSource() == b[0]) {
+		} else if (e.getSource() == b[0] && money.getText().length() > 1) {
 			money.setText(money.getText().substring(0, money.getText().length() - 1) + String.valueOf(0) + "원");
 		} else if (e.getSource() == bb && money.getText().length() > 1) {
 			money.setText(money.getText().substring(0, money.getText().length() - 2) + "원");

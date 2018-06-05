@@ -52,7 +52,7 @@ public class MainSystem {
 			} else
 				return 2;
 		} else
-			return 2;
+			return 3;
 	}
 
 	public int deposit(String money) {
@@ -78,7 +78,7 @@ public class MainSystem {
 					}
 				}
 			} else {
-				return 2;
+				return 3;
 			}
 		} else {
 			if ((this.errorType = offer[bank].readDatabase(account)) == 0) {
@@ -92,7 +92,7 @@ public class MainSystem {
 					return 2;
 				}
 			} else {
-				return 2;
+				return 3;
 			}
 		}
 	}
@@ -124,7 +124,7 @@ public class MainSystem {
 				}
 			}
 		} else {
-			return 2;
+			return 3;
 		}
 	}
 
@@ -145,7 +145,7 @@ public class MainSystem {
 					}
 				}
 				if (temp_bank == 20) {
-					return 3;
+					return 2;
 				}
 				if ((account.getBank().equals("신한은행") && isBig(money, account.getBalance()))
 						|| (!account.getBank().equals("신한은행") && isBig(plus(money, "1300"), account.getBalance()))) {
@@ -187,7 +187,7 @@ public class MainSystem {
 								}
 							}
 						} else {
-							return 2;
+							return 3;
 						}
 					}
 					newAccount.setBalance(plus(newAccount.getBalance(), money));
@@ -221,10 +221,10 @@ public class MainSystem {
 					}
 				}
 			} else {
-				return 2;
+				return 3;
 			}
 		}
-		return 2;
+		return 3;
 	}
 
 	public int exchange(String money, String str) {
@@ -268,8 +268,8 @@ public class MainSystem {
 		if (isBig(plus(plus(account.getDept(), money), "1300"), account.getLimit())) {
 			return 7;
 		} else {
-			takeCharge(account);
 			offer[bank].readDatabase(account);
+			takeCharge(account);
 			account.setDept(plus(account.getDept(), money));
 			String newLog = new Date() + " " + money + " 대출 " + "\t( 남은 한도 : "
 					+ minus(account.getLimit(), account.getDept()) + " )\n";
@@ -287,12 +287,14 @@ public class MainSystem {
 		if (account.getRate() < 3)
 			return;
 		this.ch = 21;
+		String newLog;
 		if (account.getBank().substring(2, 4).equals("카드")) {
-			account.setDept(minus(account.getDept(), "1300"));
+			account.setDept(plus(account.getDept(), "1300"));
+			newLog = new Date() + "1300" + "수수료 \t( 한도 : " + minus(account.getLimit(), account.getDept()) + " )\n" + account.getLog();
 		} else {
 			account.setBalance(minus(account.getBalance(), "1300"));
-		}
-		String newLog = new Date() + " 1300" + " 수수료 \t( 잔액 : " + account.getBalance() + " )\n" + account.getLog();
+			newLog = new Date() + " 1300" + " 수수료 \t( 잔액 : " + account.getBalance() + " )\n" + account.getLog();
+		}		
 		account.setLog(newLog);
 	}
 
@@ -345,7 +347,7 @@ public class MainSystem {
 				}
 			}
 		} else {
-			return 2;
+			return 3;
 		}
 	}
 
