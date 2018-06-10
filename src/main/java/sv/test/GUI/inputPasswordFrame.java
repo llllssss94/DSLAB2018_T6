@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
 import javax.swing.*;
 
 import ATM.Account;
-import ATM.MainSystem_Original;
+import ATM.MainSystem;
 
 public class inputPasswordFrame extends JFrame implements ActionListener, KeyListener {
 
@@ -19,12 +19,12 @@ public class inputPasswordFrame extends JFrame implements ActionListener, KeyLis
 	JLabel state;
 	JButton[] b;
 	JButton bb, reset;
-	MainSystem_Original main;
+	MainSystem main;
 	Account account;
 	GridBagLayout gbl;
 	GridBagConstraints gbc;
 
-	public inputPasswordFrame(int menu, MainSystem_Original main) {
+	public inputPasswordFrame(int menu, MainSystem main) {
 		super("password");
 		this.menu = menu;
 		this.main = main;
@@ -77,7 +77,7 @@ public class inputPasswordFrame extends JFrame implements ActionListener, KeyLis
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	public inputPasswordFrame(int menu, MainSystem_Original main, Account account) {
+	public inputPasswordFrame(int menu, MainSystem main, Account account) {
 		super("password");
 		this.menu = menu;
 		this.main = main;

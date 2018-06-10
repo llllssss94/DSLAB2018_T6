@@ -3,7 +3,7 @@ package GUI;
 import javax.swing.*;
 
 import ATM.Account;
-import ATM.MainSystem_Original;
+import ATM.MainSystem;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,13 +15,13 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 	JLabel money, state;
 	JButton b1, b10, b100, reset, bb, ok;
 	JButton[] b;
-	MainSystem_Original main;
+	MainSystem main;
 	Account account;
 	GridBagLayout gbl;
 	GridBagConstraints gbc;
 	int menu, error;
 
-	public inputMoneyFrame(int menu, MainSystem_Original main) {
+	public inputMoneyFrame(int menu, MainSystem main) {
 		super("input money");
 		gbl = new GridBagLayout();
 		gbc = new GridBagConstraints();
@@ -88,7 +88,7 @@ public class inputMoneyFrame extends JFrame implements ActionListener, KeyListen
 		}
 	}
 
-	public inputMoneyFrame(int menu, MainSystem_Original main, Account account) {
+	public inputMoneyFrame(int menu, MainSystem main, Account account) {
 		super("input money");
 		gbl = new GridBagLayout();
 		gbc = new GridBagConstraints();

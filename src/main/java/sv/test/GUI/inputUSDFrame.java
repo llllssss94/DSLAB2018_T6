@@ -2,7 +2,7 @@ package GUI;
 
 import javax.swing.*;
 
-import ATM.MainSystem_Original;
+import ATM.MainSystem;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,13 +14,13 @@ public class inputUSDFrame extends JFrame implements ActionListener, KeyListener
 	JLabel money, cc;
 	JButton b1, b10, b100, reset, bb, ok;
 	JButton[] b;
-	MainSystem_Original main;
+	MainSystem main;
 	GridBagLayout gbl;
 	GridBagConstraints gbc;
 	int error;
 	String str;
 
-	public inputUSDFrame(MainSystem_Original main, String str) {
+	public inputUSDFrame(MainSystem main, String str) {
 		super("input money");
 		gbl = new GridBagLayout();
 		gbc = new GridBagConstraints();

@@ -8,17 +8,17 @@ import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
-import ATM.MainSystem_Original;
+import ATM.MainSystem;
 
 public class selectMoneyFrame extends JFrame implements ActionListener, KeyListener {
-	MainSystem_Original main;
+	MainSystem main;
 	int menu;
 	JLabel l1, l5, money;
 	JButton up1, up2, down1, down2, ok;
 	GridBagLayout gbl;
 	GridBagConstraints gbc;
 
-	public selectMoneyFrame(int menu, MainSystem_Original main) {
+	public selectMoneyFrame(int menu, MainSystem main) {
 		super("select");
 		gbl = new GridBagLayout();
 		gbc = new GridBagConstraints();
