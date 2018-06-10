@@ -3,7 +3,7 @@ package GUI;
 import java.awt.*;
 import javax.swing.*;
 
-import ATM.MainSystem;
+import ATM.MainSystem_Original;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +17,7 @@ public class printLogFrame extends JFrame implements ActionListener, KeyListener
 	GridBagLayout gbl;
 	GridBagConstraints gbc;
 
-	public printLogFrame(MainSystem main) {
+	public printLogFrame(MainSystem_Original main) {
 		gbl = new GridBagLayout();
 		gbc = new GridBagConstraints();
 		this.setLayout(gbl);

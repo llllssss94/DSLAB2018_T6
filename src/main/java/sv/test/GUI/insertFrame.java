@@ -19,14 +19,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ATM.Account;
-import ATM.MainSystem;
+import ATM.MainSystem_Original;
 
 public class insertFrame extends JFrame implements ActionListener, KeyListener {
 	JTextField tf;
 	JButton ok, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, bb, reset;
 	JLabel state;
 	JComboBox<String> combo;
-	MainSystem main, temp;
+	MainSystem_Original main, temp;
 	int menu;
 	GridBagLayout gbl;
 	GridBagConstraints gbc;
@@ -39,7 +39,7 @@ public class insertFrame extends JFrame implements ActionListener, KeyListener {
 		gbc = new GridBagConstraints();
 		this.setLayout(gbl);
 		this.menu = menu;
-		this.main = new MainSystem();
+		this.main = new MainSystem_Original();
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1.0;
 		gbc.weighty = 1.0;
@@ -110,11 +110,11 @@ public class insertFrame extends JFrame implements ActionListener, KeyListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	public insertFrame(int menu, MainSystem main) {
+	public insertFrame(int menu, MainSystem_Original main) {
 		super("입금하실 계좌를 입력해주세요");
 		String[] list_bank = { "국민은행", "기업은행", "농협은행", "신한은행", "씨티은행", "우리은행", "한국은행", "삼성카드", "현대카드", "롯데카드" };
 		this.temp = main;
-		this.main = new MainSystem();
+		this.main = new MainSystem_Original();
 		combo = new JComboBox<String>(list_bank);
 		gbl = new GridBagLayout();
 		gbc = new GridBagConstraints();

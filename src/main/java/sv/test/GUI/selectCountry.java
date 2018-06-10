@@ -1,6 +1,6 @@
 package GUI;
 
-import ATM.MainSystem;
+import ATM.MainSystem_Original;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,12 +10,12 @@ import java.awt.event.KeyListener;
 import javax.swing.*;
 
 public class selectCountry extends JFrame implements ActionListener, KeyListener {
-	MainSystem main;
+	MainSystem_Original main;
 	JButton[] country;
 	GridBagLayout gbl;
 	GridBagConstraints gbc;
 
-	public selectCountry(MainSystem main) {
+	public selectCountry(MainSystem_Original main) {
 		super("selectCountry");
 		gbl = new GridBagLayout();
 		gbc = new GridBagConstraints();

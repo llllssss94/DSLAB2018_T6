@@ -5,10 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import ATM.Account;
-import ATM.MainSystem;
+import ATM.MainSystem_Original;
 
 public class systemtest {
-	MainSystem main = new MainSystem();
+	MainSystem_Original main = new MainSystem_Original();
 
 	@Test
 	public void testGetAccount() {

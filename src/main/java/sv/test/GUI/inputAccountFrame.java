@@ -7,10 +7,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import ATM.Account;
-import ATM.MainSystem;
+import ATM.MainSystem_Original;
 
 public class inputAccountFrame extends insertFrame {
-	public MainSystem main, temp;
+	public MainSystem_Original main, temp;
 
 	public inputAccountFrame(int menu) {
 		super(menu);
@@ -49,7 +49,7 @@ public class inputAccountFrame extends insertFrame {
 		combo.removeKeyListener(this);
 		combo.addKeyListener(key);
 
-		temp = new MainSystem();
+		temp = new MainSystem_Original();
 		ok.removeActionListener(this);
 		ok.addActionListener(new myActionListener());
 		if (menu == 1) {
@@ -67,10 +67,10 @@ public class inputAccountFrame extends insertFrame {
 		// TODO Auto-generated constructor stub
 	}
 
-	public inputAccountFrame(int menu, MainSystem main) {
+	public inputAccountFrame(int menu, MainSystem_Original main) {
 		super(menu);
 		this.main = main;
-		temp = new MainSystem();
+		temp = new MainSystem_Original();
 		ok.removeActionListener(this);
 		ok.addActionListener(new myActionListener());
 		myKeyListener key = new myKeyListener();
