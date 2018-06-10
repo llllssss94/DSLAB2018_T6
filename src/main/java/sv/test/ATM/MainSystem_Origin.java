@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import OFFER.Offer;
 
-public class MainSystem_Original {
+public class MainSystem_Origin {
 	private Account account;
 	public String card;
 	public Offer[] offer;
@@ -14,7 +14,7 @@ public class MainSystem_Original {
 	public String b5, b1;
 	public int errorType, ch;
 
-	public MainSystem_Original() {
+	public MainSystem_Origin() {
 		account = new Account();
 		card = null;
 		offer = new Offer[10];
