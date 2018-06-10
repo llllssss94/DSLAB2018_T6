@@ -8,16 +8,16 @@ import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
-import ATM.MainSystem_Original;
+import ATM.MainSystem;
 
 public class ReceiptFrame extends JFrame implements ActionListener, KeyListener {
 
-	MainSystem_Original main;
+	MainSystem main;
 	GridBagLayout gbl;
 	GridBagConstraints gbc;
 	JButton ok;
 
-	public ReceiptFrame(MainSystem_Original main) {
+	public ReceiptFrame(MainSystem main) {
 		gbl = new GridBagLayout();
 		gbc = new GridBagConstraints();
 		this.setLayout(gbl);
