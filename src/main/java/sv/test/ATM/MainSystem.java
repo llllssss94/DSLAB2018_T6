@@ -59,7 +59,7 @@ public class MainSystem
         this.account = account;
     }
 
-    private int findWhichBank()
+    private int findWhichBank(Account account)
     {
         //수정: 메소드 추가.
         //어떤 은행/카드사인지 찾고 은행종류를 int로 리턴.
@@ -73,7 +73,7 @@ public class MainSystem
     }
 
 
-    private int checkUpdateDB(Offer offer)
+    private int checkUpdateDB(Offer offer, Account account)
     {   //update Database 성공여부 리턴.
         if (offer.updateDatabase(account)) return NO_ERROR;
         else return SERVER_NOT_RESPONSE;
@@ -113,7 +113,7 @@ public class MainSystem
 
         //어느 은행인지 찾는다.
         int bank;
-        bank = findWhichBank();
+        bank = findWhichBank(account);
 
         //계좌가 비정상적인 계좌인지 확인.
         if (isWrongAccount(bank,account)) return WRONG_ACCOUNT;
@@ -122,7 +122,7 @@ public class MainSystem
         account.setIsLocked(true);
 
         //DB에 update
-        return checkUpdateDB(offer[bank]);
+        return checkUpdateDB(offer[bank], account);
 
     }
 
@@ -131,50 +131,53 @@ public class MainSystem
     {   //입금 기능. return하는 에러들은 GUI에서 frame만들 때 쓰인다.
 
         int bank;
-        bank = findWhichBank();
+        bank = findWhichBank(account);
         if (isWrongAccount(bank,account)) return WRONG_ACCOUNT;
 
         //입력한 게좌가 카드번호인경우 빚 상환.
         if (this.account.getBank().substring(2, 4).equals("카드"))
         {
-            return deposit_CARD(money,account, bank);
+            return deposit_CARD(money, this.account, bank);
         } else
         { //입력한 계좌가 은행 계좌일 경우.
-            return deposit_BANK(money,account, offer[bank]);
-
+            return deposit_BANK(money, this.account, bank);
         }
     }
 
-    private int deposit_BANK(String money, Account account, Offer offer)
-    {
-        account.setBalance(plus(this.account.getBalance(), money));
+    private int deposit_BANK(String money, Account account, int bank)
+    {   //통장으로 입금하기. 입금+로그저장+checkUpdateDB까지.
+
+        account.setBalance(plus(account.getBalance(), money));
         String newLog = new Date() + " " + money + " 입금 \t( 잔액 : " + account.getBalance() + " )\n";
-        newLog = newLog + this.account.getLog();
+        newLog = newLog + account.getLog();
         account.setLog(newLog);
-        return checkUpdateDB(offer);
+        return checkUpdateDB(offer[bank],account );
     }
 
     private int deposit_CARD(String money, Account account, int bank)
-    {
+    {   //카드로 입금하기. 입금+로그저장+checkUpdateDB까지.
+
         // 입금하는 돈 > 빚이면 입금불가.
-        if (isBig(money, this.account.getDept()))
+        if (isBig(money, account.getDept()))
         {
             return DEPOSIT_OVER_DEPT;
         } else
         {
-            this.account.setDept(minus(this.account.getDept(), money));
-            String newLog = new Date() + " " + money + " 상환 \t( 대출금 : " + this.account.getDept() + " )\n";
-            newLog = newLog + this.account.getLog();
-            this.account.setLog(newLog);
-            return checkUpdateDB(offer[bank]);
+            account.setDept(minus(account.getDept(), money));
+            String newLog = new Date() + " " + money + " 상환 \t( 대출금 : " + account.getDept() + " )\n";
+            newLog = newLog + account.getLog();
+            account.setLog(newLog);
+            return checkUpdateDB(offer[bank],account );
         }
     }
 
 
     public int withdraw(String money)
     {   //출금한다.
+
+        //지역변수 bank. 어디 은행인지 알기 위함.
         int bank;
-        bank = findWhichBank();
+        bank = findWhichBank(account);
 
         //account 확인.
         if(isWrongAccount(bank, account)) return WRONG_ACCOUNT;
@@ -182,151 +185,124 @@ public class MainSystem
         //잔액 충분한지 확인
             if(isUnderBalance(money)) return NOT_ENOUGH_BALANCE;
             else
-            {   //돈 출금
-                String newLog;
-                if (!account.getBank().equals("신한은행"))
-                {
-                    this.takeCharge(account);
-                }
-                account.setBalance(minus(account.getBalance(), money));
-                newLog = new Date() + " " + money + " 출금 \t( 잔액 : " + account.getBalance() + " )\n" + account.getLog();
-                account.setLog(newLog);
-
-                return checkUpdateDB(offer[bank]);
-            }
-        }
-
-    public int transfer(String money, Account receiveAccount)
-    {   //송금 시도하고 error code를 리턴.
-        int bank;
-        bank = findWhichBank();
-
-        if (! offer[bank].checkValid(account)) return WRONG_ACCOUNT;
-        //{
-            if (isWrongAccount(bank, account)) return WRONG_ACCOUNT;
-
-            //receiverAccount가 존재하는지 확인.
-            int temp_bank = 0;
-            boolean new_account_exist = false;
-            while(temp_bank < 10)
             {
-                if (receiveAccount.getBank().equals(list_bank[temp_bank]))
-                {
-                    new_account_exist = true;
-                    break;
-                }
-                temp_bank ++;
+                return withdraw_Money(money, offer[bank], account, "출금");
             }
-            if(!new_account_exist) return SERVER_NOT_RESPONSE;
+    }
 
-            //------
-            //송금인 잔액확인
-            if(isUnderBalance(money)) return NOT_ENOUGH_BALANCE;
+    private int withdraw_Money(String money, Offer offer, Account account, String withdrawType)
+    {
+        //돈 출금기능(수수료까지 출금o) + log업데이트 +  checkUpdateDB
 
-            else
-            {// 여기 else삭제해도 됨. 송금인 잔액이 충분하면.
-                if (receiveAccount.getBank().substring(2, 4).equals("카드"))
-                {   //수신자가 카드면?
-                    if(isWrongAccount(bank, receiveAccount)) return WRONG_ACCOUNT;
-                    //if ((this.errorType = offer[bank].readDatabase(newAccount)) != 0)
-                    //{
-                    //    return 3;
-                    //}
-                    else //여기 else삭제해도 됨.
-                    {
-                        if (isBig(money, receiveAccount.getDept()))
-                        {
-                            return DEPOSIT_OVER_DEPT;
-                        } else
-                        {   // 여기 else삭제해도 됨.그냥 여기 Else 놔두자.
-                            receiveAccount.setDept(minus(receiveAccount.getDept(), money));
-                            String newLog = new Date() + " " + money + " 상환 \t( 대출금 : " + receiveAccount.getDept()
-                                    + " )\n";
-                            newLog = newLog + receiveAccount.getLog();
-                            receiveAccount.setLog(newLog);
+        String newLog;
+        if (!account.getBank().equals("신한은행"))
+        {
+            this.takeCharge(account);
+        }
+        account.setBalance(minus(account.getBalance(), money));
+        newLog = new Date() + " " + money + withdrawType+ "\t( 잔액 : " + account.getBalance() + " )\n" + account.getLog();
+        account.setLog(newLog);
 
-                            //checkUpdateDB
+        return checkUpdateDB(offer,account );
+    }
 
-                            //update db 안되면 2리턴.
-                            // return checkUpdateDB(bank,newAccount)
-                            if (!offer[bank].updateDatabase(receiveAccount))
-                            {
-                                return 2;
-                            }
+    private int withdraw_Money(String money, Offer offer, Account account, String withdrawType, Account receiverAccount)
+    {  //Overloading
+        //돈 출금기능(수수료까지 출금o) + log업데이트 +  checkUpdateDB + 수신자정보까지.
 
+        String newLog;
+        if (!this.account.getBank().equals("신한은행"))
+        {
+            this.takeCharge(this.account);
+        }
+        this.account.setBalance(minus(this.account.getBalance(), money));
+        newLog = new Date() + " " + money + withdrawType+ receiverAccount.getBank() + " " + receiverAccount.getAccountNumber() + "\t( 잔액 : " + this.account.getBalance() + " )\n" + this.account.getLog();
+        this.account.setLog(newLog);
 
-                            offer[bank].readDatabase(account);
-                            if (!account.getBank().equals("신한은행") || !receiveAccount.getBank().equals("신한은행"))
-                                takeCharge(account);
-                            account.setBalance(minus(account.getBalance(), money));
-                            newLog = new Date() + " " + money + " 송금 " + receiveAccount.getBank() + " "
-                                    + receiveAccount.getAccountNumber() + "\t( 잔액 : " + account.getBalance() + " )\n";
-                            newLog = newLog + account.getLog();
-                            account.setLog(newLog);
-                            if (offer[bank].updateDatabase(account))
-                            {
-                                return 0;
-                            } else
-                            {
-                                receiveAccount.setDept(plus(receiveAccount.getDept(), money));
-                                newLog = new Date() + " " + money + " 기존거래 취소 \t( 대출금 : " + receiveAccount.getDept()
-                                        + " )\n";
-                                newLog = newLog + receiveAccount.getLog();
-                                receiveAccount.setLog(newLog);
-                                if (!offer[bank].updateDatabase(receiveAccount))
-                                {
-                                    return 2;
-                                }
-                                return 2;
-                            }
-                        }
-                    }
-                }
-                receiveAccount.setBalance(plus(receiveAccount.getBalance(), money));
-                String tempLog = new Date() + " " + money + " 입금 " + account.getBank() + " "
-                        + account.getAccountNumber() + "\t( 잔액 : " + receiveAccount.getBalance() + " )\n";
-                tempLog = tempLog + receiveAccount.getLog();
-                receiveAccount.setLog(tempLog);
-                if (!offer[temp_bank].updateDatabase(receiveAccount))
-                {
-                    return 2;
-                }
-                offer[bank].readDatabase(account);
-                if (!account.getBank().equals("신한은행") || !receiveAccount.getBank().equals("신한은행"))
-                    takeCharge(account);
-                account.setBalance(minus(account.getBalance(), money));
-                String newLog = new Date() + " " + money + " 송금 " + receiveAccount.getBank() + " "
-                        + receiveAccount.getAccountNumber() + "\t( 잔액 : " + account.getBalance() + " )\n";
-                newLog = newLog + account.getLog();
-                account.setLog(newLog);
-                if (offer[bank].updateDatabase(account))
-                {
-                    return 0;
-                } else
-                {
-                    receiveAccount.setBalance(plus(receiveAccount.getBalance(), money));
-                    tempLog = new Date() + " " + money + " 기존거래 취소 " + account.getBank() + " "
-                            + account.getAccountNumber() + "\t( 잔액 : " + receiveAccount.getBalance() + " )\n";
-                    tempLog = tempLog + receiveAccount.getLog();
-                    receiveAccount.setLog(tempLog);
-                    if (!offer[temp_bank].updateDatabase(receiveAccount))
-                    {
-                        return 2;
-                    }
-                    return 2;
-                }
-            }
-       // } else
-        //{
-        //    return WRONG_ACCOUNT;
-       // }
+        return checkUpdateDB(offer, account);
     }
 
 
-    public int exchange(String money, String str)
+    public int transfer(String money, Account receiveAccount)
+    {   //송금 시도하고 error code를 리턴.
+
+        int bank;
+        bank = findWhichBank(this.account);
+
+        //송금하려는 account가 valid하지 않으면 오류.
+        if (!offer[bank].checkValid(account)) return WRONG_ACCOUNT;
+        if (isWrongAccount(bank, account)) return WRONG_ACCOUNT;
+        offer[bank].readDatabase(account);
+
+
+        //receiver의 bank 얻어오고 valid하지 않으면 오류.
+        int receiver_bank;
+        receiver_bank = findWhichBank(receiveAccount);
+        if(isWrongAccount(receiver_bank, receiveAccount)) return WRONG_ACCOUNT;
+        offer[receiver_bank].readDatabase(receiveAccount);
+
+
+        //송금계좌의 잔액 확인
+        if(isUnderBalance(money)) return NOT_ENOUGH_BALANCE;
+
+        int receiverUpdateCheck;
+        int senderUpdateCheck;
+
+        if (receiveAccount.getBank().substring(2, 4).equals("카드"))
+        {   //수신자가 카드인 경우: 수신자 빚 상환
+            receiverUpdateCheck = deposit_CARD(money, receiveAccount, receiver_bank);
+            //송금자 잔액 차감
+            senderUpdateCheck = withdraw_Money(money,offer[bank],account,"송금 ", receiveAccount);
+
+            if(receiverUpdateCheck ==2 || senderUpdateCheck ==2)
+            {//updateDB시 오류가 난 경우 거래 취소.
+
+                //수신자 거래 취소
+                receiveAccount.setDept(plus(receiveAccount.getDept(), money));
+                String newLog = new Date() + " " + money + " 기존거래 취소 \t( 대출금 : " + receiveAccount.getDept()
+                        + " )\n";
+                newLog = newLog + receiveAccount.getLog();
+                receiveAccount.setLog(newLog);
+
+                //송신자 거래 취소
+                account.setBalance(plus(account.getBalance(), money));
+                String tempLog = new Date() + " " + money + " 기존거래 취소 " + account.getBank() + " "
+                        + account.getAccountNumber() + "\t( 잔액 : " + account.getBalance() + " )\n";
+                tempLog = tempLog + account.getLog();
+                account.setLog(tempLog);
+                return SERVER_NOT_RESPONSE;
+            }
+            return NO_ERROR;
+        }
+        else
+        {   //수신자가 일반 은행 계좌인 경우: 입금.
+            receiverUpdateCheck = deposit_BANK(money, receiveAccount, receiver_bank);
+
+            //송신자에서 차감.
+            senderUpdateCheck = withdraw_Money(money,offer[bank],account,"송금 ", receiveAccount);
+
+
+            if (receiverUpdateCheck == 2 || senderUpdateCheck == 2)
+            {
+                //updateDB시 오류가 난 경우 거래 취소.
+
+                //수신자 거래 취소
+                withdraw_Money(money, offer[receiver_bank], receiveAccount, "기존 거래 취소");
+                //송신자 거래 취소
+                withdraw_Money(money, offer[bank], account, "기존 거래 취소");
+
+                return SERVER_NOT_RESPONSE;
+            }
+            return NO_ERROR;
+        }
+    }
+
+
+
+        public int exchange(String money, String str)
     {
         int bank;
-        bank = findWhichBank();
+        bank = findWhichBank(account);
         int[] exchangeRate = {1100, 10, 1280, 200};
         String[] country = {"USD", "JPY", "EUR", "CNY"};
         int i;
@@ -346,14 +322,14 @@ public class MainSystem
                     + " )\n";
             newLog = newLog + account.getLog();
             account.setLog(newLog);
-            return checkUpdateDB(offer[bank]);
+            return checkUpdateDB(offer[bank],account );
         }
     }
 
     public int loan(String money)
     {
         int bank;
-        bank = findWhichBank();
+        bank = findWhichBank(account);
         if (isBig(plus(plus(account.getDept(), money), "1300"), account.getLimit()))
         {
             return 7;
@@ -366,7 +342,7 @@ public class MainSystem
                     + minus(account.getLimit(), account.getDept()) + " )\n";
             newLog = newLog + account.getLog();
             account.setLog(newLog);
-            return checkUpdateDB(offer[bank]);
+            return checkUpdateDB(offer[bank],account );
         }
     }
 
@@ -402,7 +378,7 @@ public class MainSystem
     {
 
 
-        int bank = findWhichBank();
+        int bank = findWhichBank(account);
 
         if (offer[bank].checkValid(account))
         {
@@ -437,7 +413,7 @@ public class MainSystem
                         + newAccount.getAccountNumber() + "\t( 잔액 : " + account.getBalance() + " )\n";
                 newLog = newLog + account.getLog();
                 account.setLog(newLog);
-                return checkUpdateDB(offer[bank]);
+                return checkUpdateDB(offer[bank],account );
             }
         } else
         {
